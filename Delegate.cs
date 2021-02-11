@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Program
 {
-	class Program
+    class Program
     {
         public delegate int FindFunction(int[] array, int value);
 
         static int LinearSearch(int[] array, int value)
         {
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] == value)
                     return i;
@@ -21,7 +21,7 @@ namespace Program
         {
             int left = 0;
             int right = array.Length - 1;
-            while(left < right)
+            while (left < right)
             {
                 int middle = (right + left) / 2;
                 if (array[middle] > value)
@@ -50,12 +50,23 @@ namespace Program
         {
             var x = new int[5];
             Random random = new Random();
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 x[i] = random.Next(10);
             }
             Array.Sort(x);
+            // without anonymous functions
             var index = FuncSearcher(x, x[2], BinarySearch);
-		}
+            // with anonymous functions
+            index = FuncSearcher(x, x[2], delegate(int[] array, int value)
+            {
+                return BinarySearch(x, x[2]);
+            });
+            // with lambda
+            index = FuncSearcher(x, x[2], (int[] array, int value) =>
+            {
+                return BinarySearch(x, x[2]);
+            });
+        }
     }
 }
