@@ -163,4 +163,37 @@ public class BinaryTree<T> : IEnumerable<T> where T : IComparable
                 throw new IndexOutOfRangeException();
         }
     }
+    
+    public static BinaryTree<T> Unit(BinaryTree<T> tree1, BinaryTree<T> tree2)
+        {
+            var node = tree1.root;
+            var root2 = tree2.root;
+            while (true)
+            {
+                if (root2.Value.CompareTo(node.Value) < 0)
+                {
+                    if (node.Left != null)
+                        node = node.Left;
+                    else
+                    {
+                        node.Left = root2;
+                        root2.Parent = node;
+                        break;
+                    }
+                }
+                else
+                {
+                    if (node.Right != null)
+                        node = node.Right;
+                    else
+                    {
+                        node.Right = root2;
+                        root2.Parent = node;
+                        break;
+                    }
+                }
+            }
+            tree1.Size += tree2.Size;
+            return tree1;
+        }
 }
